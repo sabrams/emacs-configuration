@@ -1,0 +1,100 @@
+#+title: Emacs Config
+
+** Use Package
+
+Install packages by default when configured with use-package.
+
+#+begin_src emacs-lisp
+(setq use-package-always-ensure t)
+#+end_src
+
+Macro to use to configure built-in features, rather than packages that do not
+need to be installed.
+
+#+begin_src emacs-lisp
+(defmacro use-feature (name &rest args)
+  "`use-package' with package installation (`ensure') disabled."
+  (declare (indent defun))
+  `(use-package ,name
+     :ensure nil
+     ,@args))
+#+end_src
+
+* Base Settings
+
+** Customization Saving
+
+Do not save customizations in =init.el=, instead save them in a temporary file
+that will be discarded. As a result, any customizations made in a session will
+not be persisted across sessions.
+
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name
+                   (format "custom-%d-%d.el" (emacs-pid) (random))
+                   temporary-file-directory))
+#+end_src
+
+** No Littering
+
+Move all common files typically written to the =user-emacs-directory= to the =var=
+and =etc= subdirectories so that they can be included in =.gitignore=
+
+#+begin_src emacs-lisp
+(use-package no-littering
+  :ensure (:wait t))
+#+end_src
+
+* User Interface
+
+** Completion Menu (Vertico)
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :init
+  (vertico-mode))
+#+end_src
+
+** Consult
+
+#+begin_src emacs-lisp
+(use-package consult
+  :bind (("C-x b" . consult-buffer)))
+#+end_src
+
+** Completion Style (Orderless)
+
+The orderless completion style allows typing parts of what is being matched,
+separated by spaces. For example, "som thi" will match "this-is-some-thing".
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+* Version Control
+
+* Magit
+
+#+begin_src emacs-lisp
+  ;; (use-package magit)
+#+end_src
+
+Install latest version of transient, as the version included in Emacs is not recent enough.
+
+#+begin_src emacs-lisp
+  ;; (use-package transient)
+#+end_src
+
+
+* Startup Time
+
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook
+          (lambda ()
+            (let ((inhibit-message t))
+              (message "Emacs init time: %s" (emacs-init-time)))))
+#+end_src
+

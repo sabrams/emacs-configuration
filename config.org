@@ -1,5 +1,7 @@
 #+title: Emacs Config
 
+* Package Management
+
 ** Use Package
 
 Install packages by default when configured with use-package.
@@ -30,8 +32,8 @@ not be persisted across sessions.
 
 #+begin_src emacs-lisp
 (setq custom-file (expand-file-name
-                   (format "custom-%d-%d.el" (emacs-pid) (random))
-                   temporary-file-directory))
+		   (format "custom-%d-%d.el" (emacs-pid) (random))
+		   temporary-file-directory))
 #+end_src
 
 ** No Littering
@@ -42,6 +44,89 @@ and =etc= subdirectories so that they can be included in =.gitignore=
 #+begin_src emacs-lisp
 (use-package no-littering
   :ensure (:wait t))
+#+end_src
+
+* Theme
+
+#+begin_src emacs-lisp
+;; (use-package lambda-themes
+;;   :ensure (:type git :host github :repo "lambda-emacs/lambda-themes")
+;;  :custom
+;;   (lambda-themes-set-italic-comments t)
+;;   (lambda-themes-set-italic-keywords t)
+;;   (lambda-themes-set-variable-pitch t)
+;;   :config
+;;   ;; load preferred theme
+;;   (load-theme 'lambda-dark))
+#+end_src
+
+#+begin_src emacs-lisp
+;; (use-package tomorrow-night-paradise
+;;   :ensure (:type git :host github :repo "jimeh/tomorrow-night-paradise-theme.el")
+;; )
+#+end_src
+
+#+begin_src emacs-lisp
+      (use-package clues-theme
+	:ensure (:type git :host github :repo "emacsfodder/emacs-clues-theme" )
+	:config
+	(load-theme 'clues))
+#+end_src
+#+begin_src emacs-lisp
+;;  (use-package tron-legacy-theme
+;;    :config
+;;    (setq tron-legacy-theme-vivid-cursor t)
+;;    (load-theme 'tron-legacy t))
+#+end_src
+
+#+begin_src emacs-lisp
+;; (use-package tomorrow-night-theme
+;;   :ensure (:type git :host github :repo "ChrisKempson/Tomorrow-Theme")
+;; )
+#+end_src
+
+#+begin_src emacs-lisp
+;;      (use-package fleetish-theme
+;;        :ensure (:type git :host github :repo "nylar/fleetish-emacs-theme")
+;;        :config
+;;        (load-theme 'fleetish t))
+#+end_src
+
+#+begin_src emacs-lisp
+;;  (set-face-attribute 'default nil
+;;                    :family "Inconsolata" :height 145 :weight 'normal)
+;;                    :family "Monaco" :height 145 :weight 'normal)
+#+end_src
+
+#+begin_src emacs-lisp
+;;  (custom-theme-set-faces
+;;   'user
+;;   '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
+;;   '(variable-pitch ((t (:family "Monaco" :height 180))))
+;;   '(fixed-pitch ((t ( :family "Fira Code Retina" :height 160)))))
+;;   '(fixed-pitch ((t ( :family "Monaco" :height 170)))))
+#+end_src
+
+(Move elsewhere)See https://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs
+#+begin_src emacs-lisp
+  (defun duplicate-line()
+    (interactive)
+    (move-beginning-of-line 1)
+    (kill-line)
+    (yank)
+    (open-line 1)
+    (next-line 1)
+    (yank)
+  )
+  (global-set-key (kbd "C-d") 'duplicate-line)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package lua-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
 #+end_src
 
 * User Interface
@@ -70,8 +155,28 @@ separated by spaces. For example, "som thi" will match "this-is-some-thing".
 (use-package orderless
   :init
   (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+** Remove Top Panel
+
+#+begin_src emacs-lisp
+(tool-bar-mode -1)
+#+end_src
+
+** Maximize Frame
+
+#+begin_src emacs-lisp
+(add-hook 'window-setup-hook 'toggle-frame-maximized t)
+#+end_src
+
+* Source File Modes
+
+** Haml
+
+#+begin_src emacs-lisp
+;;(use-package haml-mode)
 #+end_src
 
 * Version Control
@@ -79,22 +184,76 @@ separated by spaces. For example, "som thi" will match "this-is-some-thing".
 * Magit
 
 #+begin_src emacs-lisp
-  ;; (use-package magit)
+  (use-package magit)
 #+end_src
 
 Install latest version of transient, as the version included in Emacs is not recent enough.
 
 #+begin_src emacs-lisp
-  ;; (use-package transient)
+  (use-package transient)
 #+end_src
 
 
 * Startup Time
 
+
 #+begin_src emacs-lisp
 (add-hook 'after-init-hook
-          (lambda ()
-            (let ((inhibit-message t))
-              (message "Emacs init time: %s" (emacs-init-time)))))
+	  (lambda ()
+	    (let ((inhibit-message t))
+	      (message "Emacs init time: %s" (emacs-init-time)))))
 #+end_src
 
+
+* Org-Side-Tree
+
+#+begin_src emacs-lisp
+  (use-package org-side-tree)
+#+end_src
+* Treemacs
+
+#+begin_src emacs-lisp
+	    (use-package treemacs
+	      :ensure t
+	      :defer t
+	      :bind
+	      ;;("s-1" . treemacs)  ;; Use CMD+1 (or Super+1)
+	    ("M-0" . treemacs-select-window) ;; recommended
+	    ;;("s-1" . treemacs-select-window)
+	      :init
+	      (with-eval-after-load 'winum
+		(define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+
+	      (defun treemacs-auto-select ()
+	"Automatically select files in Treemacs based on typed text."
+	(interactive)
+	(let ((search-text (thing-at-point 'filename)))
+	  (treemacs-do-search search-text)))
+
+      (global-set-key (kbd "C-c t") 'treemacs-auto-select)
+
+  ;;    ;; Function to add all directories within a specified directory to Treemacs
+  ;;    (defun treemacs-add-projects-from-directory (dir)
+  ;;    "Add all projects from the given DIR to Treemacs."
+  ;;    (when (file-directory-p dir)
+  ;;      (dolist (subdir (directory-files dir t "\\`[^\\.]+"))  ;; Exclude `.` and `..`
+  ;;        (when (file-directory-p subdir)
+  ;;          (treemacs-add-project-to-workspace subdir)))))
+  ;;
+  ;;  ;; Specify the directory you want to add projects from
+  ;;  (let ((projects-directory "~/workspace/wsgr/neuron")) ;; Change this to your projects directory
+  ;;    (treemacs-add-projects-from-directory projects-directory))
+  )
+#+end_src
+
+* Uncategorized
+
+#+begin_src emacs-lisp
+  (use-package multiple-cursors)
+#+end_src
+
+(setq-default show-trailing-whitespace t)
+
+* To Consider
+ winner-mode
+state machine: https://elpa.gnu.org/packages/fsm.html

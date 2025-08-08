@@ -61,16 +61,22 @@ and =etc= subdirectories so that they can be included in =.gitignore=
 #+end_src
 
 #+begin_src emacs-lisp
-;; (use-package tomorrow-night-paradise
-;;   :ensure (:type git :host github :repo "jimeh/tomorrow-night-paradise-theme.el")
-;; )
+  (use-package dirvish
+    :ensure (:type git :host github :repo "alexluigit/dirvish.el")
+  )
 #+end_src
 
 #+begin_src emacs-lisp
-      (use-package clues-theme
-	:ensure (:type git :host github :repo "emacsfodder/emacs-clues-theme" )
-	:config
-	(load-theme 'clues))
+  ;; (use-package tomorrow-night-paradise
+  ;;   :ensure (:type git :host github :repo "jimeh/tomorrow-night-paradise-theme.el")
+  ;; )
+#+end_src
+
+#+begin_src emacs-lisp
+;;      (use-package clues-theme
+;;	:ensure (:type git :host github :repo "emacsfodder/emacs-clues-theme" )
+;;	:config
+;;	(load-theme 'clues))
 #+end_src
 #+begin_src emacs-lisp
 ;;  (use-package tron-legacy-theme
@@ -86,10 +92,10 @@ and =etc= subdirectories so that they can be included in =.gitignore=
 #+end_src
 
 #+begin_src emacs-lisp
-;;      (use-package fleetish-theme
-;;        :ensure (:type git :host github :repo "nylar/fleetish-emacs-theme")
-;;        :config
-;;        (load-theme 'fleetish t))
+      (use-package fleetish-theme
+        :ensure (:type git :host github :repo "nylar/fleetish-emacs-theme")
+        :config
+        (load-theme 'fleetish t))
 #+end_src
 
 #+begin_src emacs-lisp

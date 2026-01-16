@@ -46,6 +46,14 @@ and =etc= subdirectories so that they can be included in =.gitignore=
 
 * User Interface
 
+** Frame Size
+
+Maximize frame on startup without using native fullscreen.
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
 ** Completion Menu (Vertico)
 
 #+begin_src emacs-lisp

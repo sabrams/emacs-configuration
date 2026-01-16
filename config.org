@@ -110,6 +110,15 @@ separated by spaces. For example, "som thi" will match "this-is-some-thing".
         completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
+** Terminal (vterm)
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :hook (vterm-mode . (lambda ()
+                        (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
+                        (buffer-face-mode t))))
+#+end_src
+
 * Version Control
 
 * Magit

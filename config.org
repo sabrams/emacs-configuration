@@ -54,6 +54,12 @@ Maximize frame on startup without using native fullscreen.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
+** Toolbar
+
+#+begin_src emacs-lisp
+(tool-bar-mode -1)
+#+end_src
+
 ** Theme
 
 #+begin_src emacs-lisp

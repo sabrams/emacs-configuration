@@ -60,6 +60,12 @@ Maximize frame on startup without using native fullscreen.
 (tool-bar-mode -1)
 #+end_src
 
+** Icons
+
+#+begin_src emacs-lisp
+(use-package nerd-icons)
+#+end_src
+
 ** Theme
 
 #+begin_src emacs-lisp

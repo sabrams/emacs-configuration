@@ -71,7 +71,15 @@ Maximize frame on startup without using native fullscreen.
 #+begin_src emacs-lisp
 (use-package doom-themes
   :config
-  (load-theme 'doom-city-lights t))
+  (load-theme 'doom-city-lights t)
+  (doom-themes-treemacs-config))
+#+end_src
+
+** Tree View (Treemacs)
+
+#+begin_src emacs-lisp
+(use-package treemacs
+  :bind (("C-c t" . treemacs)))
 #+end_src
 
 ** Completion Menu (Vertico)

@@ -54,6 +54,14 @@ Maximize frame on startup without using native fullscreen.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
+** Theme
+
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :config
+  (load-theme 'doom-city-lights t))
+#+end_src
+
 ** Completion Menu (Vertico)
 
 #+begin_src emacs-lisp

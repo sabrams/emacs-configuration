@@ -75,6 +75,12 @@ Maximize frame on startup without using native fullscreen.
   (doom-themes-treemacs-config))
 #+end_src
 
+** Font and Faces
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :background "black" :height 180)
+#+end_src
+
 ** Tree View (Treemacs)
 
 #+begin_src emacs-lisp

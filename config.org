@@ -88,6 +88,17 @@ Maximize frame on startup without using native fullscreen.
   :bind (("C-c t" . treemacs)))
 #+end_src
 
+** Project Management (Projectile)
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :config
+  (projectile-mode +1))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+#+end_src
+
 ** Completion Menu (Vertico)
 
 #+begin_src emacs-lisp

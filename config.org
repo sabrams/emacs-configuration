@@ -71,8 +71,7 @@ Maximize frame on startup without using native fullscreen.
 #+begin_src emacs-lisp
 (use-package doom-themes
   :config
-  (load-theme 'doom-city-lights t)
-  (doom-themes-treemacs-config))
+  (load-theme 'doom-city-lights t))
 #+end_src
 
 ** Font and Faces
@@ -85,7 +84,11 @@ Maximize frame on startup without using native fullscreen.
 
 #+begin_src emacs-lisp
 (use-package treemacs
-  :bind (("C-c t" . treemacs)))
+  :bind (("C-c t" . treemacs))
+  :config
+  (setq treemacs-indentation 1)
+  (setq treemacs-space-between-root-nodes nil)
+  (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal :slant 'italic))
 #+end_src
 
 ** Project Management (Projectile)

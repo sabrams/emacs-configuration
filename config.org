@@ -80,6 +80,12 @@ Maximize frame on startup without using native fullscreen.
 (set-face-attribute 'default nil :background "black" :height 180)
 #+end_src
 
+** Line Numbers
+
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode 1)
+#+end_src
+
 ** Tree View (Treemacs)
 
 #+begin_src emacs-lisp

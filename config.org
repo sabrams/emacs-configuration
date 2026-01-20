@@ -66,6 +66,13 @@ Maximize frame on startup without using native fullscreen.
 (use-package nerd-icons)
 #+end_src
 
+** Mode Line
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :hook (elpaca-after-init . doom-modeline-mode))
+#+end_src
+
 ** Theme
 
 #+begin_src emacs-lisp

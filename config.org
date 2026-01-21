@@ -75,16 +75,22 @@ Maximize frame on startup without using native fullscreen.
 
 ** Theme
 
+Use doom-city-lights with increased contrast for better readability.
+
 #+begin_src emacs-lisp
 (use-package doom-themes
   :config
-  (load-theme 'doom-city-lights t))
+  (load-theme 'doom-city-lights t)
+  (set-face-attribute 'default nil :background "#12181e" :foreground "#d5e4ed")
+  (set-face-attribute 'font-lock-comment-face nil :foreground "#7a9aaa")
+  (set-face-attribute 'font-lock-string-face nil :foreground "#80d0c1")
+  (set-face-attribute 'font-lock-keyword-face nil :foreground "#80c0f0"))
 #+end_src
 
 ** Font and Faces
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :background "black" :height 180)
+(set-face-attribute 'default nil :height 180)
 #+end_src
 
 ** Line Numbers

@@ -22,6 +22,15 @@ need to be installed.
 
 * Base Settings
 
+** Keybindings
+
+Use =C-j= and =M-j= as alternatives to =C-x= and =M-x= for easier home row access.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-j") ctl-x-map)
+(global-set-key (kbd "M-j") 'execute-extended-command)
+#+end_src
+
 ** Customization Saving
 
 Do not save customizations in =init.el=, instead save them in a temporary file

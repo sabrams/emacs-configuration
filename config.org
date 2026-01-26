@@ -96,12 +96,6 @@ Use doom-city-lights with increased contrast for better readability.
   (set-face-attribute 'font-lock-keyword-face nil :foreground "#80c0f0"))
 #+end_src
 
-** Font and Faces
-
-#+begin_src emacs-lisp
-(set-face-attribute 'default nil :height 180)
-#+end_src
-
 ** Line Numbers
 
 #+begin_src emacs-lisp

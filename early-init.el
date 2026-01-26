@@ -4,7 +4,7 @@
 (setq package-enable-at-startup nil)
 
 (setq c/monospace-font "JetBrainsMono Nerd Font"
-      c/monospace-font-size 14)
+      c/monospace-font-size 18)
 
 ;; Configure default frame settings before the first frame is shown
 (setq default-frame-alist

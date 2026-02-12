@@ -146,6 +146,11 @@ Enable Monaspace ligatures and texture healing via OpenType features.
   (setq treemacs-indentation 1)
   (setq treemacs-space-between-root-nodes nil)
   (set-face-attribute 'treemacs-root-face nil :height 1.0 :weight 'normal :slant 'italic))
+
+(use-package treemacs-tab-bar
+  :after treemacs
+  :config
+  (treemacs-set-scope-type 'Tabs))
 #+end_src
 
 ** Project Management (Projectile)
@@ -157,6 +162,77 @@ Enable Monaspace ligatures and texture healing via OpenType features.
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
+#+end_src
+
+** Project Tabs (Tabspaces)
+
+Create a tab for each project, with buffers isolated per tab.
+
+#+begin_src emacs-lisp
+(use-package tabspaces
+  :after projectile
+  :hook (elpaca-after-init . tabspaces-mode)
+  :bind (("C-c p t" . tabspaces-open-or-create-project-and-workspace)
+         ("C-c p n" . my/open-neuron-project-tab)
+         ("C-c p d" . my/open-project-tab-from-dir))
+  :custom
+  (tabspaces-use-filtered-buffers-as-default t)
+  (tabspaces-default-tab "Default")
+  (tabspaces-include-buffers '("*scratch*" "*Messages*"))
+  :config
+  (defvar my/neuron-projects-dir "~/workspace/wsgr/neuron/"
+    "Base directory for neuron projects.")
+
+  (defun my/open-project-in-tab (project-dir)
+    "Open PROJECT-DIR in a new tab without prompts."
+    (let* ((project-dir (expand-file-name project-dir))
+           (tab-name (file-name-nondirectory (directory-file-name project-dir))))
+      (unless (member project-dir projectile-known-projects)
+        (projectile-add-known-project project-dir))
+      (tab-bar-new-tab)
+      (tab-bar-rename-tab tab-name)
+      (setq default-directory project-dir)
+      (dired project-dir)
+      (when (featurep 'treemacs)
+        (run-at-time 0 nil
+          (lambda (dir name)
+            (let ((ws (treemacs-current-workspace)))
+              (when ws
+                (setf (treemacs-workspace->projects ws)
+                      (list (treemacs-project->create!
+                             :name name
+                             :path dir
+                             :path-status (treemacs--get-path-status dir))))
+                (when (treemacs-get-local-buffer)
+                  (treemacs--invalidate-buffer-project-cache)
+                  (treemacs--rerender-after-workspace-change)))))
+          project-dir tab-name))))
+
+  (defun my/open-neuron-project-tab ()
+    "Open a neuron project in a new tab."
+    (interactive)
+    (let* ((dir (expand-file-name my/neuron-projects-dir))
+           (subdirs (seq-filter
+                     #'file-directory-p
+                     (directory-files dir t "^[^.]")))
+           (names (mapcar #'file-name-nondirectory subdirs))
+           (choice (completing-read "Neuron project: " names nil t)))
+      (my/open-project-in-tab (expand-file-name choice dir))))
+
+  (defun my/open-project-tab-from-dir (dir)
+    "Open a project tab from subdirectories of DIR."
+    (interactive "DBase directory: ")
+    (let* ((subdirs (seq-filter
+                     #'file-directory-p
+                     (directory-files dir t "^[^.]")))
+           (names (mapcar #'file-name-nondirectory subdirs))
+           (choice (completing-read "Project: " names nil t)))
+      (my/open-project-in-tab (expand-file-name choice dir)))))
+
+(use-feature tab-bar
+  :custom
+  (tab-bar-show t)
+  (tab-bar-new-tab-choice "*scratch*"))
 #+end_src
 
 ** Completion Menu (Vertico)

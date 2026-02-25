@@ -247,7 +247,9 @@ Create a tab for each project, with buffers isolated per tab.
 
 #+begin_src emacs-lisp
 (use-package consult
-  :bind (("C-x b" . consult-buffer)))
+  :bind (("C-x b" . consult-buffer)
+         ("C-c i" . consult-imenu)
+         ("C-c r" . consult-ripgrep)))
 #+end_src
 
 ** Completion Style (Orderless)
@@ -291,6 +293,27 @@ separated by spaces. For example, "som thi" will match "this-is-some-thing".
            "* %?\n%U\n%a")
           ("j" "Journal" entry (file+datetree "~/org/journal.org")
            "* %?\n%U"))))
+#+end_src
+
+** PlantUML (Mind Maps & Diagrams)
+
+Use PlantUML inside org-mode babel blocks for mind maps and diagrams.
+Evaluate blocks with =C-c C-c= and view the generated image inline.
+
+#+begin_src emacs-lisp
+(use-package plantuml-mode
+  :mode ("\\.puml\\'" . plantuml-mode)
+  :custom
+  (plantuml-executable-path "/opt/homebrew/bin/plantuml")
+  (plantuml-default-exec-mode 'executable))
+
+(use-feature org
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((plantuml . t)))
+  (setq org-plantuml-exec-mode 'plantuml)
+  (setq org-plantuml-executable-path "/opt/homebrew/bin/plantuml"))
 #+end_src
 
 * Version Control
@@ -378,6 +401,21 @@ existing Claude Code login — no API key needed.
   (advice-add 'claude-code-ide :after #'my/claude-show-profile-in-buffer)
   (advice-add 'claude-code-ide-continue :after #'my/claude-show-profile-in-buffer)
   (advice-add 'claude-code-ide-resume :after #'my/claude-show-profile-in-buffer))
+#+end_src
+
+* Markdown
+
+Render markdown inside Emacs using =shr= (the built-in HTML renderer).
+=C-c C-c l= opens a live preview buffer that updates as you edit.
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :custom
+  (markdown-command "pandoc")
+  (markdown-fontify-code-blocks-natively t)
+  (markdown-header-scaling t)
+  (markdown-live-preview-delete-export 'delete-on-export))
 #+end_src
 
 * Startup Time

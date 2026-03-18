@@ -31,6 +31,25 @@ Use =C-j= and =M-j= as alternatives to =C-x= and =M-x= for easier home row acces
 (global-set-key (kbd "M-j") 'execute-extended-command)
 #+end_src
 
+Use CUA keybindings for cut/copy/paste (=C-x=, =C-c=, =C-v=) when a region is active.
+
+#+begin_src emacs-lisp
+(cua-mode 1)
+#+end_src
+
+Use =Cmd+arrow= to switch between windows.
+
+#+begin_src emacs-lisp
+(windmove-default-keybindings 'super)
+#+end_src
+
+Use =Cmd+d= to split right and =Cmd+Shift+d= to split below, with focus moving to the new window.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "s-d") (lambda () (interactive) (split-window-right) (other-window 1)))
+(global-set-key (kbd "s-D") (lambda () (interactive) (split-window-below) (other-window 1)))
+#+end_src
+
 ** Customization Saving
 
 Do not save customizations in =init.el=, instead save them in a temporary file

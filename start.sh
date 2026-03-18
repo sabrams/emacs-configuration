@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-open -na Emacs --args --chdir "$(pwd)" --init-dir "$(dirname "$0")" "$@"
+open -na /Applications/Emacs.app --args --chdir "$(pwd)" --init-dir "$(dirname "$0")" "$@"

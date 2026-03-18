@@ -48,6 +48,16 @@ Use =Cmd+d= to split right and =Cmd+Shift+d= to split below, with focus moving t
 #+begin_src emacs-lisp
 (global-set-key (kbd "s-d") (lambda () (interactive) (split-window-right) (other-window 1)))
 (global-set-key (kbd "s-D") (lambda () (interactive) (split-window-below) (other-window 1)))
+(global-set-key (kbd "s-w") 'delete-window)
+(global-set-key (kbd "s-e") 'consult-recent-file)
+#+end_src
+
+** Recent Files
+
+Track recently opened files so they can be accessed via =Cmd+e=.
+
+#+begin_src emacs-lisp
+(recentf-mode 1)
 #+end_src
 
 ** Customization Saving
